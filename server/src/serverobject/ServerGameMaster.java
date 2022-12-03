@@ -50,6 +50,8 @@ public class ServerGameMaster {
     public void addSRacer (ServerRacerObject sRacer) {
         sRacers.put(sRacer.getUsername(), sRacer);
 
+        System.out.println(Arrays.asList(sRacers));
+
         // Show this new racer on UI (increase number of joining racers and add to statistics table)
         ServerGUI.getInstance().updateNumOfPplJoiningValue(this.getCurrentNumOfRacers());
         ServerGUI.getInstance().addSRacerToUI(sRacer.getUsername(), sRacer.getGain(), sRacer.getStatus(), sRacer.getPosition());
