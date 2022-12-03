@@ -53,13 +53,13 @@ public class ServerGameMaster {
         System.out.println(Arrays.asList(sRacers));
 
         // Show this new racer on UI (increase number of joining racers and add to statistics table)
-        ServerGUI.getInstance().updateNumOfPplJoiningValue(this.getCurrentNumOfRacers());
+        ServerGUI.getInstance().updatejoiningValue(this.getCurrentNumOfRacers());
         ServerGUI.getInstance().addSRacerToUI(sRacer.getUsername(), sRacer.getGain(), sRacer.getStatus(), sRacer.getPosition());
     }
 
     public void removeRacer(String racerName) {
         sRacers.remove(racerName);
-        ServerGUI.getInstance().updateNumOfPplJoiningValue(this.getCurrentNumOfRacers());
+        ServerGUI.getInstance().updatejoiningValue(this.getCurrentNumOfRacers());
         ServerGUI.getInstance().removeSRacerFromUI(racerName);
     }
 
@@ -217,11 +217,9 @@ public class ServerGameMaster {
         for (Map.Entry<String, ServerRacerObject> racerEntry : this.sRacers.entrySet()) {
             ServerRacerObject currRacer = racerEntry.getValue();
 
-            // ignore previous eliminated or disconnected racer
             if (currRacer.getStatus() != ServerGameConfig.RACER_STATUS_FLAG.FLAG_ELIMINATED &&
                     currRacer.getStatus() != ServerGameConfig.RACER_STATUS_FLAG.FLAG_QUIT) {
 
-                // prepare shortest answering time, ignore wrong answers
                 if (currRacer.getStatus() != ServerGameConfig.RACER_STATUS_FLAG.FLAG_WRONG &&
                         currRacer.getCurrDeltaSAnsweringTime() < _minDeltaSAnsweringTime) {
                     _minDeltaSAnsweringTime = currRacer.getCurrDeltaSAnsweringTime();
@@ -272,12 +270,6 @@ public class ServerGameMaster {
                         currRacer.setStatus(ServerGameConfig.RACER_STATUS_FLAG.FLAG_VICTORY);
 
                         ServerGUI.getInstance().announceWinner(currRacer.getUsername()); // announce winner on UI
-
-                        // write updated number of victory to database
-                        String updateUser = "UPDATE " + ServerDBConfig.TABLE_RACER
-                                + " SET " + ServerDBConfig.TABLE_RACER_victory + " = "+ currRacer.getNumOfVictory() + " WHERE "
-                                + ServerDBConfig.TABLE_RACER_username + " = '" + currRacer.getUsername() + "'";
-                        ServerDBHelper.getInstance().exec(updateUser);
 
                         isEndgame = true;
                         ServerGUI.getInstance().updateControllButtonToReplayButton();

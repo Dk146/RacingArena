@@ -20,7 +20,6 @@ public class ServerMain {
     private static JFrame serverGUI;
 
     public static void main(String args[]) {
-//        initServerDB();
         initServerGameMaster();
         initServerGUI();
         initServerNetwork();
@@ -36,7 +35,7 @@ public class ServerMain {
 
     private static void initServerDB() {
         serverDBHelper = new ServerDBHelper();
-        serverDBHelper.exec(ServerDBConfig.CREATE_TABLE_RACER);
+        serverDBHelper.exec(ServerDBConfig.CREATE_TABLE);
     }
 
     private static void initServerGUI() {
@@ -46,9 +45,6 @@ public class ServerMain {
         serverGUI.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (serverDBHelper.isDBOpenning()) {
-                    serverDBHelper.closeDB();
-                }
                 if (serverNetwork.isNetworkOpenning()) {
                     serverNetwork.closeNetwork();
                 }

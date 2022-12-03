@@ -24,21 +24,18 @@ public class ServerGUI extends JFrame {
 
     private JLabel questionSectionLabel;
 
-    private JLabel gameConfigLabel;
-    private JLabel numOfRacersLabel;
-    private JSpinner numOfRacersSpinner;
-    private JLabel raceLengthLabel;
-    private JSpinner raceLengthSpinner;
+    private JLabel settingsLabel;
+    private JLabel playersLabel;
+    private JSpinner playersSpinner;
+    private JLabel roundsLabel;
+    private JSpinner roundsSpinner;
 
-    private JLabel connectionNoti;
+    private JButton startServerButton;
+    private JButton sendQuestionButton;
 
-    private JLabel openConnectionWarning;
-    private JButton openConnectionButton;
-    private JButton startGameButton;
-
-    private JLabel gameControlLabel;
-    private JLabel numOfPplJoiningLabel;
-    private JLabel numOfPplJoining;
+    private JLabel informationLabel;
+    private JLabel joiningLabel;
+    private JLabel joining;
 
     private JSeparator separator1, separator2, separator3;
 
@@ -61,7 +58,7 @@ public class ServerGUI extends JFrame {
 
     DefaultTableModel dtm;
 
-    private HashMap<Integer, ActionListener> startGameButtonlisteners;
+    private HashMap<Integer, ActionListener> sendQuestionButtonlisteners;
 
     // Singleton
     private static ServerGUI serverGUI = null;
@@ -76,7 +73,7 @@ public class ServerGUI extends JFrame {
         super(_gameName);
         serverGUI = this;
 
-        this.startGameButtonlisteners = new HashMap<>();
+        this.sendQuestionButtonlisteners = new HashMap<>();
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -114,16 +111,6 @@ public class ServerGUI extends JFrame {
     }
 
     private void setServerGUI() {
-        // set icon
-        try {
-            ServerGUI.getInstance().setIconImage(ImageIO.read(this.getClass().getResource("assets/dog-russel-grin-icon.png")));
-            image.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("assets/background.png")).getScaledInstance(216, 115, Image.SCALE_SMOOTH)));
-        } catch (IOException e) {
-            System.err.println("Cannot set icon for Server UI");
-            e.printStackTrace();
-        }
-
-        // set panel
         this.getContentPane().setBackground(ServerGUIConfig.BACKGROUND_COLOR);
 
         // set label
@@ -143,73 +130,67 @@ public class ServerGUI extends JFrame {
     }
 
     private void setLabelUI() {
-        numOfRacersLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        raceLengthLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        numOfPplJoiningLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        playersLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        roundsLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        joiningLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
-        connectionNoti.setForeground(Color.RED);
-        connectionNoti.setFont(new Font("Arial", Font.ITALIC, 10));
+        settingsLabel.setFont(new Font("Britannic Bold", Font.BOLD, 16));
+        informationLabel.setFont(new Font("Britannic Bold", Font.BOLD, 16));
 
-        gameConfigLabel.setFont(new Font("Britannic Bold", Font.PLAIN, 16));
-        gameControlLabel.setFont(new Font("Britannic Bold", Font.PLAIN, 16));
+        winnerLabel.setFont(new Font("Britannic Bold", Font.BOLD, 16));
+        winner.setFont(new Font("Arial", Font.BOLD, 9));
+        winner.setText("The game has not ended yet.");
 
-        winnerLabel.setFont(new Font("Britannic Bold", Font.PLAIN, 16));
-        winner.setFont(new Font("Arial", Font.ITALIC, 9));
-        winner.setText("Unknown.");
-
-        questionSectionLabel.setFont(new Font("Britannic Bold", Font.PLAIN, 20));
-        racerStatLabel.setFont(new Font("Britannic Bold", Font.PLAIN, 20));
-
-        openConnectionWarning.setFont(new Font("Arial", Font.ITALIC, 9));
-        openConnectionWarning.setForeground(Color.RED);
+        questionSectionLabel.setFont(new Font("Britannic Bold", Font.BOLD, 20));
+        racerStatLabel.setFont(new Font("Britannic Bold", Font.BOLD, 20));
     }
 
     private void setSpinnerUI() {
-        numOfRacersSpinner.setModel(new SpinnerNumberModel(ServerGameConfig.INIT_NUM_OF_RACERS, ServerGameConfig.MIN_NUM_OF_RACERS, ServerGameConfig.MAX_NUM_OF_RACERS, 1));
-        raceLengthSpinner.setModel(new SpinnerNumberModel(ServerGameConfig.INIT_RACE_LENGTH, ServerGameConfig.MIN_RACE_LENGTH, ServerGameConfig.MAX_RACE_LENGTH, 1));
+        playersSpinner.setModel(new SpinnerNumberModel(ServerGameConfig.INIT_NUM_OF_RACERS, ServerGameConfig.MIN_NUM_OF_RACERS, ServerGameConfig.MAX_NUM_OF_RACERS, 1));
+        roundsSpinner.setModel(new SpinnerNumberModel(ServerGameConfig.INIT_RACE_LENGTH, ServerGameConfig.MIN_RACE_LENGTH, ServerGameConfig.MAX_RACE_LENGTH, 1));
 
-        numOfRacersSpinner.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-        raceLengthSpinner.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        playersSpinner.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        roundsSpinner.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
         // update number of racers in server
-        numOfRacersSpinner.addChangeListener(new ChangeListener() {
+        playersSpinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                ServerGameMaster.getInstance().setNumOfRacers((int)numOfRacersSpinner.getValue());
+                ServerGameMaster.getInstance().setNumOfRacers((int)playersSpinner.getValue());
             }
         });
 
         // update race length in server
-        raceLengthSpinner.addChangeListener(e -> ServerGameMaster.getInstance().setRaceLength((int) raceLengthSpinner.getValue()));
+        roundsSpinner.addChangeListener(e -> ServerGameMaster.getInstance().setRaceLength((int) roundsSpinner.getValue()));
 
-        JFormattedTextField numOfRacersTextField = ((JSpinner.DefaultEditor)numOfRacersSpinner.getEditor()).getTextField();
+        JFormattedTextField numOfRacersTextField = ((JSpinner.DefaultEditor)playersSpinner.getEditor()).getTextField();
         numOfRacersTextField.setEditable(false);
         numOfRacersTextField.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JFormattedTextField raceLengthTextField = ((JSpinner.DefaultEditor)raceLengthSpinner.getEditor()).getTextField();
+        JFormattedTextField raceLengthTextField = ((JSpinner.DefaultEditor)roundsSpinner.getEditor()).getTextField();
         raceLengthTextField.setEditable(false);
         raceLengthTextField.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
     private void setButtonUI() {
-        openConnectionButton.setBackground(ServerGUIConfig.LIGHT_GREEN);
-        openConnectionButton.setBorder(new LineBorder(ServerGUIConfig.LIGHT_GREEN));
+        startServerButton.setBackground(ServerGUIConfig.LIGHT_ORANGE);
+        startServerButton.setBorder(new LineBorder(ServerGUIConfig.LIGHT_ORANGE));
+        startServerButton.setFont(new Font("Britannic Bold", Font.BOLD, 16));
 
-        openConnectionButton.addActionListener(e -> {
-            openConnectionButton.setEnabled(false); // can no longer click the button
+
+        startServerButton.addActionListener(e -> {
+            startServerButton.setEnabled(false); // can no longer click the button
 
             ServerNetwork.getInstance().openServerSocket(); // open server socket and connect to database
-
-            connectionNoti.setForeground(ServerGUIConfig.LIGHT_GREEN);
-            connectionNoti.setText("Connection Open "); // show text to notify that server has opened
 
             disableComponentAfterOpenConnection(); // disable changeability of configuration
             setTableUI();
         });
 
-        startGameButton.setBackground(ServerGUIConfig.LIGHT_GREEN);
-        startGameButton.setBorder(new LineBorder(ServerGUIConfig.LIGHT_GREEN));
-        startGameButton.setEnabled(false);
+        sendQuestionButton.setBackground(ServerGUIConfig.LIGHT_ORANGE);
+        sendQuestionButton.setBorder(new LineBorder(ServerGUIConfig.LIGHT_ORANGE));
+        sendQuestionButton.setEnabled(false);
+        sendQuestionButton.setFont(new Font("Britannic Bold", Font.BOLD, 16));
 
         ActionListener alGiveQuestion = new ActionListener() {
             @Override
@@ -222,20 +203,20 @@ public class ServerGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ServerGameMaster.getInstance().replay();
-                startGameButton.setText("GIVE QUESTION");
+                sendQuestionButton.setText("Send A Question");
 
-                startGameButton.setBorder(new LineBorder(ServerGUIConfig.LIGHT_GREEN));
-                startGameButton.setBackground(ServerGUIConfig.LIGHT_GREEN);
-                startGameButton.setForeground(Color.WHITE);
+                sendQuestionButton.setBorder(new LineBorder(ServerGUIConfig.LIGHT_ORANGE));
+                sendQuestionButton.setBackground(ServerGUIConfig.LIGHT_ORANGE);
+                sendQuestionButton.setForeground(Color.WHITE);
 
-                startGameButton.removeActionListener(startGameButtonlisteners.get(1));
-                startGameButton.addActionListener(startGameButtonlisteners.get(0));
+                sendQuestionButton.removeActionListener(sendQuestionButtonlisteners.get(1));
+                sendQuestionButton.addActionListener(sendQuestionButtonlisteners.get(0));
             }
         };
-        startGameButton.addActionListener(alGiveQuestion);
+        sendQuestionButton.addActionListener(alGiveQuestion);
 
-        startGameButtonlisteners.put(0, alGiveQuestion);
-        startGameButtonlisteners.put(1, alReplay);
+        sendQuestionButtonlisteners.put(0, alGiveQuestion);
+        sendQuestionButtonlisteners.put(1, alReplay);
     }
 
     private void setSeparatorUI() {
@@ -265,7 +246,7 @@ public class ServerGUI extends JFrame {
         statTableScrollPane.getHorizontalScrollBar().setBorder(null);
         statTableScrollPane.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
-        int height = (ServerGameMaster.getInstance().getNumOfRacers() + 1) * ServerGUIConfig.ROW_HEIGHT;
+        int height = (ServerGameMaster.getInstance().getNumOfRacers() + 4) * ServerGUIConfig.ROW_HEIGHT;
         int width = 0;
         for (int i = 0; i < ServerGUIConfig.PREFERRED_WIDTH.length; ++i) { width += ServerGUIConfig.PREFERRED_WIDTH[i]; }
         statTableScrollPane.setPreferredSize(new Dimension(width, height));
@@ -279,7 +260,7 @@ public class ServerGUI extends JFrame {
         // set table's header: no border, row height, bg color, text color, text font
         UIManager.getDefaults().put("TableHeader.cellBorder", BorderFactory.createEmptyBorder(0,0,0,0));
         racerStatTable.getTableHeader().setPreferredSize(new Dimension(-1, ServerGUIConfig.ROW_HEIGHT-1));
-        racerStatTable.getTableHeader().setBackground(Color.BLACK);
+        racerStatTable.getTableHeader().setBackground(ServerGUIConfig.LIGHT_ORANGE);
         racerStatTable.getTableHeader().setForeground(Color.WHITE);
         racerStatTable.getTableHeader().setFont(new Font("Britannic Bold", Font.PLAIN, 12));
 
@@ -310,21 +291,21 @@ public class ServerGUI extends JFrame {
     }
 
     private void disableComponentAfterOpenConnection() {
-        numOfRacersSpinner.setEnabled(false);
-        raceLengthSpinner.setEnabled(false);
-        openConnectionButton.setEnabled(false);
+        playersSpinner.setEnabled(false);
+        roundsSpinner.setEnabled(false);
+        startServerButton.setEnabled(false);
     }
 
     public void updateControllButtonToReplayButton() {
-        startGameButton.setText("REPLAY");
-        startGameButton.setBackground(Color.RED);
-        startGameButton.setForeground(Color.WHITE);
-        startGameButton.setBorder(new LineBorder(Color.RED));
+        sendQuestionButton.setText("REPLAY");
+        sendQuestionButton.setBackground(Color.RED);
+        sendQuestionButton.setForeground(Color.WHITE);
+        sendQuestionButton.setBorder(new LineBorder(Color.RED));
     }
 
     public void changeStateOfControllButton() {
-        startGameButton.removeActionListener(startGameButtonlisteners.get(0));
-        startGameButton.addActionListener(startGameButtonlisteners.get(1));
+        sendQuestionButton.removeActionListener(sendQuestionButtonlisteners.get(0));
+        sendQuestionButton.addActionListener(sendQuestionButtonlisteners.get(1));
     }
 
     public void addSRacerToUI(String racerName, int gain, int status, int position) {
@@ -374,15 +355,15 @@ public class ServerGUI extends JFrame {
         }
     }
 
-    public void updateNumOfPplJoiningValue(int i) {
-        numOfPplJoining.setText(Integer.toString(i));
+    public void updatejoiningValue(int i) {
+        joining.setText(Integer.toString(i));
 
         // if number of ppl join equal number of racers config then enable start game button
-        if (numOfPplJoining.getText().equals(numOfRacersSpinner.getValue().toString())) {
-            startGameButton.setEnabled(true);
+        if (joining.getText().equals(playersSpinner.getValue().toString())) {
+            sendQuestionButton.setEnabled(true);
         }
         else {
-            startGameButton.setEnabled(false);
+            sendQuestionButton.setEnabled(false);
         }
     }
 
@@ -405,13 +386,13 @@ public class ServerGUI extends JFrame {
     }
 
     public void announceWinner(String winnerName) {
-        winner.setFont(new Font("Britannic Bold", Font.PLAIN, 25));
+        winner.setFont(new Font("Britannic Bold", Font.BOLD, 25));
         winner.setText(winnerName);
     }
 
     public void announceNoWinner() {
         winner.setFont(new Font("Arial", Font.ITALIC, 9));
-        winner.setText("Ppl in this server are not so smart :> ");
+        winner.setText("It ends draw.");
     }
 
     public void resetUIForReplay() {
@@ -437,6 +418,6 @@ public class ServerGUI extends JFrame {
     }
 
     public void setGiveQuestionButton(boolean bool) {
-        startGameButton.setEnabled(bool);
+        sendQuestionButton.setEnabled(bool);
     }
 }
