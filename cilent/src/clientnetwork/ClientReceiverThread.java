@@ -38,6 +38,7 @@ public class ClientReceiverThread implements Runnable {
                 byte[] bytes = new byte[lData];
                 inStream.read(bytes);
 
+                System.out.println("CHECK CMD" + cmd);
                 // Switch on command id
                 switch (cmd) {
                     case ClientNetworkConfig.CMD.CMD_LOGIN:
