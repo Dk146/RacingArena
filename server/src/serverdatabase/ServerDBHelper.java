@@ -18,11 +18,11 @@ public class ServerDBHelper {
     public ServerDBHelper() {
         try {
             // Register JDBC driver
-            Class.forName(ServerDBConfig.JDBC_DRIVER_H2);
+            Class.forName(ServerDBConfig.JDBC_DRIVER);
 
             // Open a connection
             System.out.println("Connecting to database...");
-            conn = DriverManager.getConnection(ServerDBConfig.DB_URL_H2,ServerDBConfig.DB_USER_H2,ServerDBConfig.DB_PASS_H2);
+            conn = DriverManager.getConnection(ServerDBConfig.DB_URL,ServerDBConfig.DB_USER,ServerDBConfig.DB_PASS);
             serverDBHelper = this;
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
