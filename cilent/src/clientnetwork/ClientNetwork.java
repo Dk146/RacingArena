@@ -75,7 +75,7 @@ public class ClientNetwork {
 
     public void send(ClientDataModel clientDataModel) {
         try {
-            System.out.println(this.getClass().getSimpleName() + ": sending username, password");
+            System.out.println(this.getClass().getSimpleName() + ": sending username");
             outStream.write(clientDataModel.pack());
         } catch (UnknownHostException e) {
             System.err.println("Trying to connect to unknown host: " + e);

@@ -94,15 +94,11 @@ public class ClientReceiverThread implements Runnable {
         switch (cRecLogin.getEventFlag()) {
             case ClientNetworkConfig.LOGIN_FLAG.NO_MORE_SLOTS:
                 System.out.println(getClass().getSimpleName() + ": NO_MORE_SLOTS");
-                ClientGUI.getInstance().setJoinServerNoti("No More Slots :( ", 0);
-                break;
-            case ClientNetworkConfig.LOGIN_FLAG.USERNAME_TAKEN:
-                System.out.println(getClass().getSimpleName() + ": USERNAME_TAKEN");
-                ClientGUI.getInstance().setJoinServerNoti("Nickname has already been used ", 0);
+                ClientGUI.getInstance().setJoinServerNoti("Full", 0);
                 break;
             case ClientNetworkConfig.LOGIN_FLAG.DUPLICATED_LOGIN:
                 System.out.println(getClass().getSimpleName() + ": DUPLICATED_LOGIN");
-                ClientGUI.getInstance().setJoinServerNoti("Duplicated Login ", 0);
+                ClientGUI.getInstance().setJoinServerNoti("Duplicated login ", 0);
                 break;
             case ClientNetworkConfig.LOGIN_FLAG.ERROR:
                 System.out.println(getClass().getSimpleName() + ": ERROR");
@@ -112,7 +108,7 @@ public class ClientReceiverThread implements Runnable {
 
                 // confirm this racer, i.e., local input username and password are accepted
                 ClientGameMaster.getInstance().confirmRacerPostLogin(cRecLogin.getRacerVictory());
-                ClientGUI.getInstance().setJoinServerNoti("Registration Completed Successfully ", 9);
+                ClientGUI.getInstance().setJoinServerNoti("Success", 9);
 
                 // record his opponents' array
                 ClientGameMaster.getInstance().setNumOfRacers(cRecLogin.getNumOfRacers());

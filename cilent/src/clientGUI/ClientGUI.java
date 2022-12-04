@@ -23,16 +23,12 @@ import java.util.concurrent.CountDownLatch;
 import static clientGUI.ClientGUIConfig.ColorButtonConfig.*;
 
 public class ClientGUI extends JFrame {
-    private static String userNickname, userPassword;
-
-    private int colorIndex = 0;
+    private static String userNickname;
 
     private JPanel ClientPanel;
 
-    private JLabel nicknameLabel;
-    private JTextField enterNickname;
-    private JLabel passwordLabel;
-    private JPasswordField enterPassword;
+    private JLabel usernameLabel;
+    private JTextField enterUsername;
 
     private JLabel victoryLabel;
     private JLabel numOfVictory;
@@ -46,22 +42,20 @@ public class ClientGUI extends JFrame {
     private JTextField enterAnswer;
 
     private JLabel updateStatus;
-    private JLabel updateExtraStatus;
 
     private JLabel timerLabel;
     private JProgressBar timerBar;
     private Timer timer;
 
-    private JSeparator separator1, separator2, separator3, separator4, separator5;
-    private JSeparator verticalSeparator;
-
+    private JSeparator separator1, separator2, separator3, separator4;
+    
     private JLabel racerStatusLabel;
     private JPanel racerStatusPanel;
     private List<Component> racerStatusList;
     private JLabel winnerLabel;
     private JLabel winner;
 
-    private JButton c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15;
+    private JButton c1, c4, c5, c6, c7;
 
     // error pane components
     JOptionPane noOpenConnectionPane;
@@ -98,111 +92,79 @@ public class ClientGUI extends JFrame {
         SwingUtilities.getRootPane(submitAnswerButton).setDefaultButton(submitAnswerButton);
     }
 
-    // dont't change the function name
     private void createUIComponents() {
         racerStatusPanel = new JPanel();
     }
 
-    // set color for objects that change color after button click
     private void setChangeClientGUI() {
-        Color ACCENT_COLOR = ClientGUIConfig.COLOR_LIST.get(colorIndex);
+        usernameLabel.setForeground(Color.BLACK);
+        timerLabel.setForeground(Color.BLACK);
+        questionLabel.setForeground(Color.BLACK);
 
-        // set label
-        nicknameLabel.setForeground(ACCENT_COLOR);
-        passwordLabel.setForeground(ACCENT_COLOR);
-        timerLabel.setForeground(ACCENT_COLOR);
-        questionLabel.setForeground(ACCENT_COLOR);
-
-        racerStatusLabel.setForeground(ACCENT_COLOR);
-        racerStatusLabel.setFont(new Font("Britannic Bold", Font.PLAIN, 20));
+        racerStatusLabel.setForeground(ClientGUIConfig.LIGHT_ORANGE);
+        racerStatusLabel.setFont(new Font("Britannic Bold", Font.BOLD, 25));
 
         correctAnswer.setFont(new Font("Arial", Font.ITALIC, 11));
-        correctAnswer.setText("correct answer ");
-
-        numOfVictory.setForeground(ACCENT_COLOR);
+        correctAnswer.setText("correct answer");
 
         // set buttons
-        joinServerButton.setBackground(ACCENT_COLOR);
-        joinServerButton.setForeground(ClientGUIConfig.BACKGROUND_COLOR);
-        joinServerButton.setBorder(new LineBorder(ACCENT_COLOR));
+        joinServerButton.setBackground(ClientGUIConfig.LIGHT_ORANGE);
+        joinServerButton.setForeground(ClientGUIConfig.LIGHT_ORANGE);
+        joinServerButton.setBorder(new LineBorder(ClientGUIConfig.LIGHT_ORANGE));
+        joinServerButton.setFont(new Font("Arial", Font.BOLD,  16));
         joinServerButton.setEnabled(false);
 
-        submitAnswerButton.setBackground(ACCENT_COLOR);
-        submitAnswerButton.setForeground(ClientGUIConfig.BACKGROUND_COLOR);
-        submitAnswerButton.setBorder(new LineBorder(ACCENT_COLOR));
+        submitAnswerButton.setBackground(ClientGUIConfig.LIGHT_ORANGE);
+        submitAnswerButton.setForeground(ClientGUIConfig.LIGHT_ORANGE);
+        submitAnswerButton.setBorder(new LineBorder(ClientGUIConfig.LIGHT_ORANGE));
+        submitAnswerButton.setFont(new Font("Arial", Font.BOLD,  16));
         submitAnswerButton.setEnabled(false);
     }
 
     private void setPermanentClientGUI() {
-        // set icon
-        try {
-            ClientGUI.getInstance().setIconImage(ImageIO.read(this.getClass().getResource("assets/dog-sharpei-icon.png")));
-        } catch (IOException e) {
-            System.err.println("Cannot set icon for Client UI");
-            e.printStackTrace();
-        }
-
-        // set panel
         this.getContentPane().setBackground(ClientGUIConfig.BACKGROUND_COLOR);
 
         // color palette
         setColorButtonUI();
 
         // set label
-        victoryLabel.setFont(new Font("Britannic Bold", Font.PLAIN, 20));
-        numOfVictory.setFont(new Font("Britannic Bold", Font.PLAIN, 40));
-        joinServerNoti.setFont(new Font("Arial", Font.ITALIC, 9));
+        victoryLabel.setFont(new Font("Britannic Bold", Font.BOLD, 15));
+        numOfVictory.setFont(new Font("Britannic Bold", Font.BOLD, 15));
+        joinServerNoti.setFont(new Font("Arial", Font.ITALIC, 13));
 
-        winnerLabel.setFont(new Font("Britannic Bold", Font.PLAIN, 15));
-        winner.setFont(new Font("Arial", Font.ITALIC, 9));
-        winner.setText("Unknown.");
+        winnerLabel.setFont(new Font("Britannic Bold", Font.BOLD, 15));
+        winner.setFont(new Font("Arial", Font.BOLD, 15));
+        winner.setText("Playing...");
 
-        // set separator
         setSeparatorUI();
 
-        // set text boxes
         setTextBoxUI();
         setEventWithTextBox();
 
-        // set answer status
         updateStatus.setFont(new Font("Arial", Font.BOLD, 9));
-        updateExtraStatus.setFont(new Font("Arial", Font.ITALIC, 9));
 
-        // create racer status bar
         setRacerStatusPanelUI();
 
-        // set timer
         createCountDownTimer();
     }
 
     private void setSeparatorUI() {
-        List<JSeparator> sep = Arrays.asList(separator1, separator2, separator3, separator4, separator5);
+        List<JSeparator> sep = Arrays.asList(separator1, separator2, separator3, separator4);
 
         for (int i = 0; i < sep.size(); ++i) {
             sep.get(i).setBackground(ClientGUIConfig.BORDER_COLOR);
             sep.get(i).setForeground(ClientGUIConfig.BORDER_COLOR);
             sep.get(i).setBorder(BorderFactory.createMatteBorder(3, 0, 0, 0, ClientGUIConfig.BORDER_COLOR));
         }
-
-        verticalSeparator.setOrientation(SwingConstants.VERTICAL);
-        verticalSeparator.setPreferredSize(new Dimension(3, 74));
-        verticalSeparator.setBackground(ClientGUIConfig.BORDER_COLOR);
-        verticalSeparator.setForeground(ClientGUIConfig.BORDER_COLOR);
-        verticalSeparator.setBorder(BorderFactory.createMatteBorder(0, 3, 0, 0, ClientGUIConfig.BORDER_COLOR));
     }
 
-    private boolean checkNicknameValidity(String nickname) {
+    private boolean checkUsernameValidity(String nickname) {
         return nickname.matches("^[a-zA-Z0-9_]+$");
     }
 
-    private boolean isNicknameAndPasswordValid() {
-        // if nickname is not empty, invalid, and "Enter your nickname" string and
-        // if password is not empty, and "Enter your password" string
-        // then return true else return false
-        String password = String.valueOf(enterPassword.getPassword());
-        if (checkNicknameValidity(enterNickname.getText()) &&
-                !enterNickname.equals("Enter your nickname") && !(enterNickname.getText().length() == 0) &&
-                !password.equals("Enter your password") && !(password.length() == 0)) {
+    private boolean isUsernameValid() {
+        if (checkUsernameValidity(enterUsername.getText()) &&
+                !enterUsername.equals("Enter your username") && !(enterUsername.getText().length() == 0)) {
             return true;
         }
         return false;
@@ -213,47 +175,26 @@ public class ClientGUI extends JFrame {
         UIManager.put("ToolTip.foreground", Color.BLACK);
         UIManager.put("ToolTip.font", new Font("Calibri", Font.PLAIN, 10));
 
-        enterNickname.setBorder(ClientGUIConfig.BORDER);
-        enterNickname.setToolTipText("CASE-SENSITIVE, LENGTH <= 10, and ONLY CONTAINS [a-zA-Z0-9_]   ");
-        enterNickname.addKeyListener(new KeyAdapter() {
+        enterUsername.setBorder(ClientGUIConfig.BORDER);
+        enterUsername.setToolTipText("CASE-SENSITIVE, LENGTH <= 10, and ONLY CONTAINS [a-zA-Z0-9_]   ");
+        enterUsername.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) { // if nickname exceeds MAX_NICKNAME_LENGTH then prevent racer to type more
-                if (enterNickname.getText().length() >= ClientGUIConfig.MAX_NICKNAME_LENGTH) {
+                if (enterUsername.getText().length() >= ClientGUIConfig.MAX_NICKNAME_LENGTH) {
                     e.consume();
                 }
             }
             @Override
-            public void keyReleased(KeyEvent e) { // check nickname validity
-                if (checkNicknameValidity(enterNickname.getText())) { // nickname is valid
-                    enterNickname.setForeground((Color.BLACK));
+            public void keyReleased(KeyEvent e) { 
+                if (checkUsernameValidity(enterUsername.getText())) {
+                    enterUsername.setForeground((Color.BLACK));
                 }
                 else {
-                    enterNickname.setForeground((Color.RED));
+                    enterUsername.setForeground((Color.RED));
                     joinServerButton.setEnabled(false);
                 }
 
-                if (isNicknameAndPasswordValid()) { // if both nickname and password valid
-                    joinServerButton.setEnabled(true);
-                }
-                else {
-                    joinServerButton.setEnabled(false);
-                }
-            }
-        });
-
-        enterPassword.setBorder(ClientGUIConfig.BORDER);
-        enterPassword.setToolTipText("CASE-SENSITIVE and LENGTH <= 16  ");
-        enterPassword.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) { // if password exceeds MAX_PASSWORD_LENGTH then prevent racer to type more
-                String password = String.valueOf(enterPassword.getPassword());
-                if (password.length() >= ClientGUIConfig.MAX_PASSWORD_LENGTH) {
-                    e.consume();
-                }
-            }
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (isNicknameAndPasswordValid()) { // if both nickname and password valid
+                if (isUsernameValid()) {
                     joinServerButton.setEnabled(true);
                 }
                 else {
@@ -263,37 +204,22 @@ public class ClientGUI extends JFrame {
         });
 
         enterAnswer.setBorder(ClientGUIConfig.BORDER);
-        enterAnswer.setToolTipText("Only accept INTEGER   ");
+        enterAnswer.setToolTipText("Only accept INTEGER");
     }
 
     private void setEventWithTextBox() {
-        enterNickname.addFocusListener(new FocusListener() {
+        enterUsername.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) { // if cursor is in the box
-                if (enterNickname.getText().equals("Enter your nickname")) {
-                    enterNickname.setText(null);
+                if (enterUsername.getText().equals("Enter your username")) {
+                    enterUsername.setText(null);
                 }
             }
             @Override
             public void focusLost(FocusEvent e) { // if cursor is not in the box
-                if (enterNickname.getText().equals("")) {
-                    enterNickname.setForeground((Color.BLACK));
-                    enterNickname.setText("Enter your nickname");
-                }
-            }
-        });
-
-        enterPassword.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) { // if cursor is in the box
-                if (String.valueOf(enterPassword.getPassword()).equals("Enter your password")) {
-                    enterPassword.setText(null);
-                }
-            }
-            @Override
-            public void focusLost(FocusEvent e) { // if cursor is not in the box
-                if (String.valueOf(enterPassword.getPassword()).equals("")) {
-                    enterPassword.setText("Enter your password");
+                if (enterUsername.getText().equals("")) {
+                    enterUsername.setForeground((Color.BLACK));
+                    enterUsername.setText("Enter your nickname");
                 }
             }
         });
@@ -331,21 +257,18 @@ public class ClientGUI extends JFrame {
     }
 
     private void setColorButtonUI() {
-        List<JButton> colorButtons = Arrays.asList(c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15);
+        List<JButton> colorButtons = Arrays.asList(c1,c4, c5, c6, c7);
 
-        for (int i = 0; i < NUMBER_OF_BUTTONS; ++i) {
+        for (int i = 0; i < colorButtons.size(); ++i) {
             colorButtons.get(i).setMaximumSize(new Dimension(COLOR_BUTTON_SIZE, COLOR_BUTTON_SIZE));
             colorButtons.get(i).setPreferredSize(new Dimension(COLOR_BUTTON_SIZE, COLOR_BUTTON_SIZE));
             colorButtons.get(i).setHorizontalAlignment(SwingConstants.CENTER);
 
-            colorButtons.get(i).setBackground(ClientGUIConfig.COLOR_LIST.get(i));
-            colorButtons.get(i).setForeground(ClientGUIConfig.COLOR_LIST.get(i));
-            colorButtons.get(i).setBorder(new LineBorder(ClientGUIConfig.COLOR_LIST.get(i)));
+            colorButtons.get(i).setBackground(ClientGUIConfig.BACKGROUND_COLOR);
+            colorButtons.get(i).setForeground(ClientGUIConfig.LIGHT_ORANGE);
 
-            // assign event to each button, i.e., change color theme when clicked
             int index = i;
             colorButtons.get(i).addActionListener(e -> {
-                colorIndex = index;
                 setChangeClientGUI();
                 changeRacerStatusBarTheme();
             });
@@ -355,13 +278,11 @@ public class ClientGUI extends JFrame {
     private void setButtonAction() {
         // click join server button
         joinServerButton.addActionListener(e -> {
-            userNickname = enterNickname.getText();
-            userPassword = String.valueOf(enterPassword.getPassword());
+            userNickname = enterUsername.getText();
 
             ClientGameMaster.getInstance().getCRacer().setNickname(userNickname);
-            ClientGameMaster.getInstance().getCRacer().setPassword(userPassword);
 
-            CSenLogin cdLogin = new CSenLogin(ClientNetworkConfig.CMD.CMD_LOGIN, userNickname, userPassword);
+            CSenLogin cdLogin = new CSenLogin(ClientNetworkConfig.CMD.CMD_LOGIN, userNickname);
             ClientNetwork.getInstance().send(cdLogin);
 
             submitAnswerButton.setEnabled(false); // not allow racers to resubmit their answer
@@ -433,8 +354,6 @@ public class ClientGUI extends JFrame {
 
     // create current racer progress bar first
     private void createYouProgressBar(GridBagLayout gblayout, GridBagConstraints gbconstraints) {
-        Color ACCENT_COLOR = ClientGUIConfig.COLOR_LIST.get(colorIndex);
-
         gbconstraints.fill = GridBagConstraints.HORIZONTAL;
 
         JLabel tmpLabel = new JLabel();
@@ -447,7 +366,7 @@ public class ClientGUI extends JFrame {
 
         JProgressBar tmpBar = createRacerStatusBar(3);
         tmpBar.setStringPainted(true);
-        tmpBar.setForeground(ACCENT_COLOR);
+        tmpBar.setForeground(ClientGUIConfig.LIGHT_ORANGE);
         addComponent(tmpBar, racerStatusPanel, gblayout, gbconstraints, 1, 0); // progress bar on the right
     }
 
@@ -506,12 +425,8 @@ public class ClientGUI extends JFrame {
     // change racers' progress bar theme
     private void changeRacerStatusBarTheme() {
         // change current racer's progress bar
-        racerStatusList.get(1).setForeground(ClientGUIConfig.COLOR_LIST.get(colorIndex));
+        racerStatusList.get(1).setForeground(ClientGUIConfig.LIGHT_ORANGE);
 
-        // change other racers' progress bar
-        for (int i = 2; i < ClientGameMaster.getInstance().getNumOfRacers() + 1; ++i) {
-            racerStatusList.get(i*2).setForeground(ClientGUIConfig.COLOR_LIST.get(colorIndex));
-        }
     }
 
     private void setErrorPaneUI() {
@@ -519,9 +434,9 @@ public class ClientGUI extends JFrame {
 
         retryButton.setText("RETRY");
         retryButton.setPreferredSize(new Dimension(80, 25));
-        retryButton.setBackground(ClientGUIConfig.COLOR_LIST.get(9));
+        retryButton.setBackground(ClientGUIConfig.LIGHT_ORANGE);
         retryButton.setForeground(ClientGUIConfig.BACKGROUND_COLOR);
-        retryButton.setBorder(new LineBorder(ClientGUIConfig.COLOR_LIST.get(9)));
+        retryButton.setBorder(new LineBorder(Color.BLACK));
 
         retryButton.addActionListener(e -> { ClientNetwork.getInstance().connect(); });
 
@@ -529,9 +444,9 @@ public class ClientGUI extends JFrame {
 
         cancelButton.setText("CANCEL");
         cancelButton.setPreferredSize(new Dimension(80, 25));
-        cancelButton.setBackground(ClientGUIConfig.COLOR_LIST.get(0));
+        cancelButton.setBackground(ClientGUIConfig.LIGHT_ORANGE);
         cancelButton.setForeground(ClientGUIConfig.BACKGROUND_COLOR);
-        cancelButton.setBorder(new LineBorder(ClientGUIConfig.COLOR_LIST.get(0)));
+        cancelButton.setBorder(new LineBorder(Color.RED));
 
         cancelButton.addActionListener(e -> { System.exit(-1); });
 
@@ -544,13 +459,6 @@ public class ClientGUI extends JFrame {
 
         noOpenConnectionPane = new JOptionPane(errorMessage, JOptionPane.PLAIN_MESSAGE, JOptionPane.YES_NO_OPTION);
         noOpenConnectionPane.setOptions(new Object[]{retryButton, cancelButton});
-
-        try {
-            noOpenConnectionDialog.setIconImage(ImageIO.read(this.getClass().getResource("assets/metal-error.png")));
-        } catch (IOException e) {
-            System.err.println("Cannot set icon for Error Message Popup");
-            e.printStackTrace();
-        }
 
         noOpenConnectionDialog.setContentPane(noOpenConnectionPane);
         noOpenConnectionDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -567,13 +475,12 @@ public class ClientGUI extends JFrame {
     }
 
     public void setJoinServerNoti(String str, int color) {
-        joinServerNoti.setForeground(ClientGUIConfig.COLOR_LIST.get(color));
+        joinServerNoti.setForeground(new Color(0x025c1a));
         joinServerNoti.setText(str);
     }
 
     public void disableComponentAfterJoinServer() {
-        enterNickname.setEnabled(false);
-        enterPassword.setEnabled(false);
+        enterUsername.setEnabled(false);
         joinServerButton.setEnabled(false);
     }
 
@@ -693,7 +600,6 @@ public class ClientGUI extends JFrame {
     }
 
     public void setUpdateStatus(String status) { updateStatus.setText(status); }
-    public void setUpdateExtraStatus(String status) { updateExtraStatus.setText(status); }
 
     public void initOpponentProgressWhenReceiveNumOfPplJoinning() {
         ((JSeparator)racerStatusList.get(2)).setBorder(BorderFactory.createMatteBorder(4, 0, 0, 0, ClientGUIConfig.BORDER_COLOR));
@@ -702,7 +608,7 @@ public class ClientGUI extends JFrame {
             racerStatusList.get(i*2-1).setVisible(true); // show opponent name
 
             JProgressBar tmpBar = (JProgressBar)(racerStatusList.get(i*2));
-            tmpBar.setForeground(ClientGUIConfig.COLOR_LIST.get(colorIndex)); // show opponent bar
+            tmpBar.setForeground(ClientGUIConfig.LIGHT_ORANGE); // show opponent bar
             tmpBar.setStringPainted(true); // show opponent bar value
             tmpBar.setBorder(createProgressBarBorder(3)); // show finnish line
         }
@@ -796,7 +702,7 @@ public class ClientGUI extends JFrame {
 
     public void announceNoWinner() {
         winner.setFont(new Font("Arial", Font.ITALIC, 9));
-        winner.setText("Ppl in this server are not so smart :> ");
+        winner.setText("No winner.");
     }
 
     public void renewRacerNickname() {
