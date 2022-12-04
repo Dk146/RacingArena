@@ -159,26 +159,21 @@ public class ClientGameMaster {
         switch (cRacer.getStatusFlag()) {
             case ClientGameConfig.RACER_STATUS_FLAG.FLAG_READY:
                 ClientGUI.getInstance().resetYouProgressBar();
-                ClientGUI.getInstance().setUpdateExtraStatus("Extra Status ");
                 break;
             case ClientGameConfig.RACER_STATUS_FLAG.FLAG_NORMAL:
             case ClientGameConfig.RACER_STATUS_FLAG.FLAG_FASTEST:
             case ClientGameConfig.RACER_STATUS_FLAG.FLAG_TIMEOUT:
-                ClientGUI.getInstance().setUpdateExtraStatus("Gain: " + gainStr + " ");
                 break;
             case ClientGameConfig.RACER_STATUS_FLAG.FLAG_WRONG:
                 cRacer.updateNumOfIncorrectBy(1);
-                ClientGUI.getInstance().setUpdateExtraStatus("Wrong: " + this.cRacer.getNumOfIncorrect() + " times - Gain: " + gainStr + " ");
                 break;
             case ClientGameConfig.RACER_STATUS_FLAG.FLAG_ELIMINATED:
                 checkForEndgameOnElimination();
                 ClientGUI.getInstance().strikeThroughYouNickname();
-                ClientGUI.getInstance().setUpdateExtraStatus("You were ejected :>> ");
                 break;
             case ClientGameConfig.RACER_STATUS_FLAG.FLAG_VICTORY:
                 cRacer.updateNumOfVictoryBy(1);
                 ClientGUI.getInstance().updateYouNumOfVictory(cRacer.getNumOfVictory());
-                ClientGUI.getInstance().setUpdateExtraStatus("Yay, you big brain :< ");
                 break;
             default:
                 break;

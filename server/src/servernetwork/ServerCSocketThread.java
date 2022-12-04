@@ -103,9 +103,10 @@ public class ServerCSocketThread implements Runnable{
         this.parentThread.unSubscribeClientSocket(this.cSocketID); // remove this client socket from the array of network's client sockets
         this.isPermittedToRun = false; // break loop in run()
 
+        System.out.println(getClass().getSimpleName() + ": Client "+ this.getsRacerName() +" disconnected");
+
         ServerGameMaster.getInstance().removeRacer(this.sRacerName); // tell master to remove itself
 
-        System.out.println(getClass().getSimpleName() + ": Client "+ this.getsRacerName() +" disconnected");
     }
 
     public void reply(ServerDataModel data) {
@@ -120,7 +121,7 @@ public class ServerCSocketThread implements Runnable{
         SReqAccount sReqAccount = new SReqAccount();
         sReqAccount.unpack(bytes);
 
-        System.out.println(this.getClass().getSimpleName() + ": request login: " + sReqAccount.getUsername() + ", " + sReqAccount.getPassword());
+        System.out.println(this.getClass().getSimpleName() + ": request login: " + sReqAccount.getUsername());
         for (String name: usrNames) {
             System.out.println(name);
         }
@@ -133,7 +134,7 @@ public class ServerCSocketThread implements Runnable{
         if (!usrNames.contains(sReqAccount.getUsername())) {
             usrNames.add(sReqAccount.getUsername());
 
-            ServerRacerObject sRacer = new ServerRacerObject(sReqAccount.getUsername(), sReqAccount.getPassword(), 0);
+            ServerRacerObject sRacer = new ServerRacerObject(sReqAccount.getUsername(), 0);
             ServerGameMaster.getInstance().addSRacer(sRacer);
 
             this.sRacerName = sReqAccount.getUsername();

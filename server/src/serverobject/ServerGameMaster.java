@@ -58,6 +58,9 @@ public class ServerGameMaster {
     }
 
     public void removeRacer(String racerName) {
+        if (racerName == null) {
+            return;
+        }
         sRacers.remove(racerName);
         ServerGUI.getInstance().updatejoiningValue(this.getCurrentNumOfRacers());
         ServerGUI.getInstance().removeSRacerFromUI(racerName);
