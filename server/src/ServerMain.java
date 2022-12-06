@@ -1,9 +1,6 @@
 import serverGUI.ServerGUI;
 import serverGUI.ServerGUIConfig;
 
-import serverdatabase.ServerDBConfig;
-import serverdatabase.ServerDBHelper;
-
 import servernetwork.ServerNetwork;
 
 import serverobject.ServerGameMaster;
@@ -13,7 +10,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class ServerMain {
-    private static ServerDBHelper serverDBHelper;
     private static ServerNetwork serverNetwork;
 
     private static ServerGameMaster serverGameMaster;
@@ -33,10 +29,6 @@ public class ServerMain {
         serverNetwork = new ServerNetwork();
     }
 
-    private static void initServerDB() {
-        serverDBHelper = new ServerDBHelper();
-        serverDBHelper.exec(ServerDBConfig.CREATE_TABLE);
-    }
 
     private static void initServerGUI() {
         serverGUI = new ServerGUI(ServerGUIConfig.GAME_NAME);

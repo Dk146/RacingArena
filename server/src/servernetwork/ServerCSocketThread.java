@@ -1,9 +1,5 @@
 package servernetwork;
 
-import org.h2.tools.Server;
-import serverdatabase.ServerDBConfig;
-import serverdatabase.ServerDBHelper;
-
 import serverdatamodel.ServerDataModel;
 import serverdatamodel.request.SReqAccount;
 import serverdatamodel.request.SReqAnswer;
