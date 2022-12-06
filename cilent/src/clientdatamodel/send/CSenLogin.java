@@ -1,10 +1,10 @@
 package clientdatamodel.send;
 
-import clientdatamodel.ClientDataModel;
+import clientdatamodel.DataModel;
 
 import java.nio.ByteBuffer;
 
-public class CSenLogin extends ClientDataModel {
+public class CSenLogin extends DataModel {
     private int cmd;
     private String username;
     public CSenLogin(int _cmd, String _username) {

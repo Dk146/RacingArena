@@ -1,16 +1,16 @@
-import clientGUI.ClientGUI;
-import clientGUI.ClientGUIConfig;
-import clientnetwork.ClientNetwork;
-import clientobject.ClientGameMaster;
+import clientGUI.GUI;
+import clientGUI.GUISetting;
+import clientnetwork.Network;
+import clientobject.GameController;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class ClientMain {
-    private static ClientNetwork network;
+    private static Network network;
 
-    private static ClientGameMaster clientGameMaster;
+    private static GameController gameController;
     private static JFrame clientGUI;
 
     public static void main(String[] args) {
@@ -20,16 +20,16 @@ public class ClientMain {
     }
 
     private static void initClientGameMaster() {
-        clientGameMaster = new ClientGameMaster();
+        gameController = new GameController();
     }
 
     private static void connectToServer() {
-        network = new ClientNetwork();
+        network = new Network();
         network.connect();
     }
 
     private static void initClientGUI() {
-        clientGUI = new ClientGUI(ClientGUIConfig.GAME_NAME);
+        clientGUI = new GUI(GUISetting.GAME_NAME);
         clientGUI.pack();
 
         clientGUI.addWindowListener(new WindowAdapter() {
