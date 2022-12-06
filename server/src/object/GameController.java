@@ -10,6 +10,8 @@ import java.util.*;
 public class GameController {
     private int numOfRacers;
     private int raceLength;
+
+    private int currentRount;
     private HashMap<String, Racer> sRacers;
     private HashMap<Integer, GameQuestion> sQuestions;
     private Timer questionTimer;
@@ -31,6 +33,7 @@ public class GameController {
         this.numOfRacers = GameSetting.INIT_NUM_OF_RACERS;
         this.numOfRemainRacers = this.numOfRacers;
         this.raceLength = GameSetting.INIT_RACE_LENGTH;
+        this.currentRount = 0;
         this.isEndgame = false;
         gameController = this;
     }
@@ -175,6 +178,8 @@ public class GameController {
         );
         NetworkController.getInstance().sendToAllClient(question, -1, false);
 
+        this.currentRount += 1;
+
         // start timer
         this._startTimer();
     }
@@ -265,7 +270,7 @@ public class GameController {
                     currRacer.updatePositionBy(lostPointsOfFuckedUpRacers);
 
                     // the racer may also be the victor
-                    if (currRacer.getPosition() >= raceLength) {
+                    if (currentRount == raceLength) {
                         currRacer.updateNumOfVictoryBy(1);
                         currRacer.setStatus(GameSetting.RACER_STATUS_FLAG.FLAG_VICTORY);
 
