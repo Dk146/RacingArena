@@ -1,18 +1,18 @@
-import serverGUI.ServerGUI;
-import serverGUI.ServerGUIConfig;
+import GUI.GUI;
+import GUI.GUISetting;
 
-import servernetwork.ServerNetwork;
+import network.NetworkController;
 
-import serverobject.ServerGameMaster;
+import object.GameController;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class ServerMain {
-    private static ServerNetwork serverNetwork;
+    private static NetworkController networkController;
 
-    private static ServerGameMaster serverGameMaster;
+    private static GameController gameController;
     private static JFrame serverGUI;
 
     public static void main(String args[]) {
@@ -22,23 +22,23 @@ public class ServerMain {
     }
 
     private static void initServerGameMaster() {
-        serverGameMaster = new ServerGameMaster();
+        gameController = new GameController();
     }
 
     private static void initServerNetwork() {
-        serverNetwork = new ServerNetwork();
+        networkController = new NetworkController();
     }
 
 
     private static void initServerGUI() {
-        serverGUI = new ServerGUI(ServerGUIConfig.GAME_NAME);
+        serverGUI = new GUI(GUISetting.GAME_NAME);
         serverGUI.pack();
 
         serverGUI.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (serverNetwork.isNetworkOpenning()) {
-                    serverNetwork.closeNetwork();
+                if (networkController.isNetworkOpenning()) {
+                    networkController.closeNetwork();
                 }
                 super.windowClosing(e);
             }

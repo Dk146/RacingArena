@@ -1,10 +1,10 @@
 package clientdatamodel.send;
 
-import clientdatamodel.ClientDataModel;
+import clientdatamodel.DataModel;
 
 import java.nio.ByteBuffer;
 
-public class CSenAnswer extends ClientDataModel {
+public class CSenAnswer extends DataModel {
     private int cmd;
     private int cQuestionID;
     private int cAnswer;
