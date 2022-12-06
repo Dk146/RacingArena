@@ -1,8 +1,6 @@
 package serverobject;
 
 import serverGUI.ServerGUI;
-import serverdatabase.ServerDBConfig;
-import serverdatabase.ServerDBHelper;
 import serverdatamodel.response.SResAllRacersInfo;
 import serverdatamodel.response.SResQuestion;
 import servernetwork.ServerNetwork;

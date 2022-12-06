@@ -2,7 +2,7 @@ package serverobject;
 
 public class ServerRacerObject {
     private String username;
-    private int numOfVictory; // private to individual
+    private int winningGames; // private to individual
     private int position;
     private int status;
 
@@ -10,9 +10,9 @@ public class ServerRacerObject {
     private int numOfWrong;
     private long currDeltaSAnsweringTime;
 
-    public ServerRacerObject(String _username, int _numOfVictory) {
+    public ServerRacerObject(String _username, int _winningGame) {
         this.username = _username;
-        this.numOfVictory = _numOfVictory;
+        this.winningGames = _winningGame;
         this.position = ServerGameConfig.INIT_RACER_POSITION;
         this.status = ServerGameConfig.RACER_STATUS_FLAG.FLAG_READY;
 
@@ -27,9 +27,9 @@ public class ServerRacerObject {
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
 
-    public int getNumOfVictory() { return numOfVictory; }
-    public void setNumOfVictory(int numOfVictory) { this.numOfVictory = numOfVictory; }
-    public void updateNumOfVictoryBy(int delta) { this.numOfVictory += delta; }
+    public int getWinningGames() { return winningGames; }
+    public void setWinningGames(int winningGames) { this.winningGames = winningGames; }
+    public void updateNumOfVictoryBy(int delta) { this.winningGames += delta; }
 
     public int getStatus() { return status; }
     public void setStatus(int status) { this.status = status; }
