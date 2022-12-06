@@ -1,7 +1,7 @@
-package clientnetwork;
+package network;
 
-import clientGUI.GUI;
-import clientdatamodel.DataModel;
+import GUI.GUI;
+import datamodel.DataModel;
 
 import java.io.*;
 import java.net.Socket;

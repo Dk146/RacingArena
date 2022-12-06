@@ -1,13 +1,13 @@
-package clientnetwork;
+package network;
 
-import clientGUI.GUI;
+import GUI.GUI;
 
-import clientdatamodel.receive.RacersInfo;
-import clientdatamodel.receive.Login;
-import clientdatamodel.receive.EnemyId;
+import datamodel.receive.RacersInfo;
+import datamodel.receive.Login;
+import datamodel.receive.EnemyId;
 
-import clientdatamodel.receive.Question;
-import clientobject.*;
+import datamodel.receive.Question;
+import obj.*;
 
 import java.io.DataInputStream;
 import java.io.IOException;

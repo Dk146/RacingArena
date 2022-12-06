@@ -52,7 +52,7 @@ public class NetworkController {
         private ServerSocket serverSocket;
         private ExecutorService clientPool;
         private int cSocketID;
-        private HashMap<Integer, SSocketThread> cSocketThreads;
+        private HashMap<Integer, SocketThread> cSocketThreads;
 
         public ServerNetworkThread() {
             this.serverSocket = null;
@@ -84,7 +84,7 @@ public class NetworkController {
                     }
 
                     this.cSocketID += 1;
-                    SSocketThread clientThread = new SSocketThread(cSocket, this.cSocketID, this);
+                    SocketThread clientThread = new SocketThread(cSocket, this.cSocketID, this);
 
                     this.subscribeClientSocket(this.cSocketID, clientThread);
                     this.clientPool.execute(clientThread);
@@ -99,7 +99,7 @@ public class NetworkController {
             }
         }
 
-        public void subscribeClientSocket(int cSocketThreadID, SSocketThread cSockThread) {
+        public void subscribeClientSocket(int cSocketThreadID, SocketThread cSockThread) {
             this.cSocketThreads.put(cSocketThreadID, cSockThread);
         }
 
@@ -122,14 +122,14 @@ public class NetworkController {
 
         public void signalAllClients(DataModel data, int callerID, boolean ignoreCaller) {
             if (ignoreCaller) {
-                for (Map.Entry<Integer, SSocketThread> entry : this.cSocketThreads.entrySet()) {
+                for (Map.Entry<Integer, SocketThread> entry : this.cSocketThreads.entrySet()) {
                     if (entry.getKey() != callerID && entry.getValue().getsRacerName() != null) {
                         entry.getValue().reply(data);
                     }
                 }
             }
             else {
-                for (Map.Entry<Integer, SSocketThread> entry : this.cSocketThreads.entrySet()) {
+                for (Map.Entry<Integer, SocketThread> entry : this.cSocketThreads.entrySet()) {
                     if (entry.getValue().getsRacerName() != null) {
                         entry.getValue().reply(data);
                     }

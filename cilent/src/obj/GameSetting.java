@@ -1,4 +1,4 @@
-package clientobject;
+package obj;
 
 public class GameSetting {
     public static final int MIN_NUM_OF_RACERS = 2;

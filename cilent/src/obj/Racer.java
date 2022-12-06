@@ -1,4 +1,4 @@
-package clientobject;
+package obj;
 
 public class Racer extends Player {
     private int numOfIncorrect;

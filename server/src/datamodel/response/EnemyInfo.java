@@ -6,14 +6,14 @@ import object.Racer;
 
 import java.nio.ByteBuffer;
 
-public class OpponentInfo extends DataModel {
+public class EnemyInfo extends DataModel {
     private int cmd;
     private int eventFlag;
 
     private String newRacerUsername;
     private GameController sGameMaster;
 
-    public OpponentInfo(int _cmd, int _eventFlag, String _newRacerUsername, GameController _sGameMaster) {
+    public EnemyInfo(int _cmd, int _eventFlag, String _newRacerUsername, GameController _sGameMaster) {
         this.cmd = _cmd;
         this.eventFlag = _eventFlag;
         this.newRacerUsername = _newRacerUsername;
@@ -29,8 +29,7 @@ public class OpponentInfo extends DataModel {
                 + this.sGameMaster.getSizeInBytesOfRacer(this.newRacerUsername);
         ByteBuffer byteBuffer = ByteBuffer.allocate(capacity);
 
-        // Pour in data
-        // Always put cmd first
+
         byteBuffer.putInt(this.cmd);
         // Then put data sequentially
         byteBuffer.putInt(this.eventFlag);
