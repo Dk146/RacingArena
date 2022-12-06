@@ -75,7 +75,6 @@ public class GameController {
                 break;
             case GameSetting.RACER_STATUS_FLAG.FLAG_ELIMINATED:
                 checkForEndgameOnElimination();
-                GUI.getInstance().strikeThroughEliminatedRacer(cOpponent);
                 break;
             case GameSetting.RACER_STATUS_FLAG.FLAG_QUIT:
                 GUI.getInstance().updateOpponentProgressWhenARacerQuit(cOpponent);
@@ -91,10 +90,7 @@ public class GameController {
     }
 
     public void confirmRacerPostLogin(int numOfVictory) {
-        this.cRacer.setNumOfVictory(numOfVictory);
-
         GUI.getInstance().updateYouNickname(this.cRacer.getNickname()); // update racer name in status panel on UI
-        GUI.getInstance().updateYouNumOfVictory(numOfVictory); // update reacer's victory count on UI
     }
 
     public void setCurrentQuestion(GameQuestion currentQuestion) {
@@ -109,31 +105,6 @@ public class GameController {
             GUI.getInstance().stopAnswering();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void replay() {
-        _prepareRacer();
-        _prepareOpponents();
-
-        currentQuestion = null;
-        numOfEliminatedRacers = 0;
-        GUI.getInstance().resetUIForReplay();
-    }
-
-    private void _prepareRacer() {
-        // update UI
-        cRacer.setNumOfIncorrect(0);
-        cRacer.setGain(0);
-        GUI.getInstance().renewRacerNickname();
-        GUI.getInstance().resetYouProgressBar();
-    }
-
-    private void _prepareOpponents() {
-        for (Map.Entry<String, Player> opps : cOpponents.entrySet()) {
-            GUI.getInstance().updateOpponentProgress(opps.getValue());
-            GUI.getInstance().updateOpponentNameWhenJoin(opps.getValue());
-            GUI.getInstance().renewRacerNickname();
         }
     }
 
@@ -168,11 +139,8 @@ public class GameController {
                 break;
             case GameSetting.RACER_STATUS_FLAG.FLAG_ELIMINATED:
                 checkForEndgameOnElimination();
-                GUI.getInstance().strikeThroughYouNickname();
                 break;
             case GameSetting.RACER_STATUS_FLAG.FLAG_VICTORY:
-                cRacer.updateNumOfVictoryBy(1);
-                GUI.getInstance().updateYouNumOfVictory(cRacer.getNumOfVictory());
                 break;
             default:
                 break;

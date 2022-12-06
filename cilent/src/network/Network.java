@@ -58,8 +58,6 @@ public class Network {
         }
 
         // notify of successful connection
-        System.out.println(this.getClass().getSimpleName() + ": notification of successful connection");
-
         GUI.getInstance().setVisible(true); // open client UI
         GUI.getInstance().turnOffNoOpenConnectionPane(); // turn off error message pane
 
@@ -75,7 +73,6 @@ public class Network {
 
     public void send(DataModel dataModel) {
         try {
-            System.out.println(this.getClass().getSimpleName() + ": sending username");
             outStream.write(dataModel.pack());
         } catch (UnknownHostException e) {
             System.err.println("Trying to connect to unknown host: " + e);

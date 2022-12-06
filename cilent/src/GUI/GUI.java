@@ -28,9 +28,6 @@ public class GUI extends JFrame {
     private JLabel usernameLabel;
     private JTextField enterUsername;
 
-    private JLabel victoryLabel;
-    private JLabel numOfVictory;
-
     private JButton joinServerButton;
     private JLabel joinServerNoti;
     private JButton submitAnswerButton;
@@ -55,7 +52,6 @@ public class GUI extends JFrame {
 
     private JButton c1, c4, c5, c6, c7;
 
-    // error pane components
     JOptionPane noOpenConnectionPane;
     JDialog noOpenConnectionDialog;
     JButton retryButton, cancelButton;
@@ -125,9 +121,6 @@ public class GUI extends JFrame {
         // color palette
         setColorButtonUI();
 
-        // set label
-        victoryLabel.setFont(new Font("Britannic Bold", Font.BOLD, 15));
-        numOfVictory.setFont(new Font("Britannic Bold", Font.BOLD, 15));
         joinServerNoti.setFont(new Font("Arial", Font.ITALIC, 13));
 
         winnerLabel.setFont(new Font("Britannic Bold", Font.BOLD, 15));
@@ -491,10 +484,6 @@ public class GUI extends JFrame {
         this.noOpenConnectionDialog.setVisible(false);
     }
 
-    public void updateYouNumOfVictory(int numOfVictory) {
-        this.numOfVictory.setText(Integer.toString(numOfVictory));
-    }
-
     public void updateRacersProgressBarSize(int raceLength) {
         ((JProgressBar)racerStatusList.get(1)).setMaximum(raceLength);
 
@@ -592,11 +581,6 @@ public class GUI extends JFrame {
         ((JProgressBar)racerStatusList.get(1)).setString(Integer.toString(GameSetting.INIT_RACER_POSITION)); // reset progress number
     }
 
-    public void strikeThroughYouNickname() {
-        String str = ((JLabel)racerStatusList.get(0)).getText();
-        ((JLabel)racerStatusList.get(0)).setText(strikeThroughText(str));
-    }
-
     public void setUpdateStatus(String status) { updateStatus.setText(status); }
 
     public void initOpponentProgressWhenReceiveNumOfPplJoinning() {
@@ -658,19 +642,6 @@ public class GUI extends JFrame {
         correctAnswer.setText(Integer.toString(answer));
     }
 
-    public void strikeThroughEliminatedRacer(Player opponent) {
-        for (int i = 2; i < GameController.getInstance().getNumOfRacers() + 1; ++i) {
-            String str = ((JLabel)racerStatusList.get(i*2-1)).getText();
-
-            if (checkIfEqualToNickname(str, opponent.getNickname())) {
-                String nickName = ((JLabel)racerStatusList.get(i*2-1)).getText();
-                ((JLabel)racerStatusList.get(i*2-1)).setText(strikeThroughText(nickName)); // strike through opponent name
-
-                break;
-            }
-        }
-    }
-
     public void resetUIForReplay() {
         // reset winner announcement
         winner.setFont(new Font("Arial", Font.ITALIC, 9));
@@ -689,10 +660,6 @@ public class GUI extends JFrame {
         updateStatus.setText("Extra status");
     }
 
-    public void updateNumOfVictory(int victory) {
-        numOfVictory.setText(Integer.toString(victory));
-    }
-
     public void announceWinner(String winnerName) {
         winner.setFont(new Font("Britannic Bold", Font.PLAIN, 18));
         winner.setText(winnerName);
@@ -701,15 +668,5 @@ public class GUI extends JFrame {
     public void announceNoWinner() {
         winner.setFont(new Font("Arial", Font.ITALIC, 9));
         winner.setText("No winner.");
-    }
-
-    public void renewRacerNickname() {
-        JLabel tmpLabel = (JLabel)racerStatusList.get(0);
-        tmpLabel.setText(removeStrikeThrough(tmpLabel.getText()));
-
-        for (int i = 2; i < GameController.getInstance().getNumOfRacers() + 1; ++i) {
-            tmpLabel = (JLabel)racerStatusList.get(i*2-1);
-            tmpLabel.setText(removeStrikeThrough(tmpLabel.getText()));
-        }
     }
 }

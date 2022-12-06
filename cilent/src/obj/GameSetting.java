@@ -1,26 +1,10 @@
 package obj;
 
 public class GameSetting {
-    public static final int MIN_NUM_OF_RACERS = 2;
     public static final int MAX_NUM_OF_RACERS = 10;
-    public static final int MIN_RACE_LENGTH = 3;
     public static final int MAX_TIMER_SEC = 10;
-    public static final long MAX_TIMER_MILIS = MAX_TIMER_SEC * 1000;
 
-    public static final int INIT_NUM_OF_RACERS = 2;
-    public static final int INIT_RACE_LENGTH = 15;
     public static final int INIT_RACER_POSITION = 1;
-    public static final long INIT_RACER_DELTA_ANSWERING_TIME = Long.MAX_VALUE;
-    public static final int INIT_QUESTION_ID = 1;
-
-    public static final int MAX_NUMBER = 10000, MIN_NUMBER = -10000;
-    public static class OPERATOR_FLAG {
-        public static final int ADD_OP = 0;
-        public static final int MINUS_OP = 1;
-        public static final int MULTIPLY_OP = 2;
-        public static final int DIVIDE_OP = 3;
-        public static final int MODULA_OP = 4;
-    }
     public static final String[] OPERATORS = {"+", "-", "*", "/ ", "%"};
 
     public static class RACER_STATUS_FLAG {

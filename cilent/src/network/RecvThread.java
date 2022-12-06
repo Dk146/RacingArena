@@ -53,9 +53,6 @@ public class RecvThread implements Runnable {
                     case NetworkSetting.CMD.CMD_RESULT:
                         receiveResult(bytes);
                         break;
-                    case NetworkSetting.CMD.CMD_REPLAY:
-                        receiveReplay(bytes);
-                        break;
                     default:
                         break;
                 }
@@ -93,19 +90,14 @@ public class RecvThread implements Runnable {
 
         switch (login.getEventFlag()) {
             case NetworkSetting.LOGIN_FLAG.NO_MORE_SLOTS:
-                System.out.println(getClass().getSimpleName() + ": NO_MORE_SLOTS");
                 GUI.getInstance().setJoinServerNoti("Full", 0);
                 break;
             case NetworkSetting.LOGIN_FLAG.DUPLICATED_LOGIN:
-                System.out.println(getClass().getSimpleName() + ": DUPLICATED_LOGIN");
                 GUI.getInstance().setJoinServerNoti("Duplicated login ", 0);
                 break;
             case NetworkSetting.LOGIN_FLAG.ERROR:
-                System.out.println(getClass().getSimpleName() + ": ERROR");
                 break;
             case NetworkSetting.LOGIN_FLAG.SUCCESS:
-                System.out.println(getClass().getSimpleName() + ": SUCCESS");
-
                 // confirm this racer, i.e., local input username and password are accepted
                 GameController.getInstance().confirmRacerPostLogin(login.getRacerVictory());
                 GUI.getInstance().setJoinServerNoti("Success", 9);
@@ -202,15 +194,5 @@ public class RecvThread implements Runnable {
 
     private void _RR_updateCorrectAnswer(RacersInfo racersInfo) {
         GameController.getInstance().updateCorrectAnswer(racersInfo.getCorrectAnswer());
-    }
-
-    private void receiveReplay(byte[] bytes) {
-        RacersInfo racersInfo = new RacersInfo();
-        racersInfo.unpack(bytes);
-
-        _RR_updateThisRacer(racersInfo, true);
-        _RR_updateOpponentsInfo(racersInfo);
-
-        GameController.getInstance().replay();
     }
 }
