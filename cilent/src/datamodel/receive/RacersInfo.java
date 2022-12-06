@@ -1,8 +1,8 @@
-package clientdatamodel.receive;
+package datamodel.receive;
 
-import clientdatamodel.DataModel;
-import clientobject.GameSetting;
-import clientobject.Player;
+import datamodel.DataModel;
+import obj.GameSetting;
+import obj.Player;
 
 import java.nio.ByteBuffer;
 import java.util.HashMap;

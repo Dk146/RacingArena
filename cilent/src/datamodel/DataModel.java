@@ -1,4 +1,4 @@
-package clientdatamodel;
+package datamodel;
 
 import java.nio.ByteBuffer;
 

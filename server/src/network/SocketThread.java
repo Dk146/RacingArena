@@ -5,7 +5,7 @@ import datamodel.request.Account;
 import datamodel.request.Answer;
 import datamodel.response.LoginError;
 import datamodel.response.LoginSuccess;
-import datamodel.response.OpponentInfo;
+import datamodel.response.EnemyInfo;
 
 import object.GameSetting;
 import object.GameController;
@@ -17,7 +17,7 @@ import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class SSocketThread implements Runnable{
+public class SocketThread implements Runnable{
     private int cSocketID;
     private boolean isPermittedToRun;
 
@@ -29,7 +29,7 @@ public class SSocketThread implements Runnable{
 
     private String sRacerName;
 
-    public SSocketThread(Socket _socketOfServer, int _cSocketID, NetworkController.ServerNetworkThread _parentThread) {
+    public SocketThread(Socket _socketOfServer, int _cSocketID, NetworkController.ServerNetworkThread _parentThread) {
         this.cSocketID = _cSocketID;
         this.isPermittedToRun = true;
 
@@ -92,12 +92,12 @@ public class SSocketThread implements Runnable{
     }
 
     public void finalizeOnClose() throws IOException {
-        OpponentInfo opponentInfo = new OpponentInfo(
+        EnemyInfo enemyInfo = new EnemyInfo(
                 NetworkSetting.CMD.CMD_INFO,
                 NetworkSetting.INFO_TYPE_FLAG.TYPE_NOTICE_UPDATE_OPPONENT,
                 this.sRacerName,
                 GameController.getInstance());
-        this.parentThread.signalAllClients(opponentInfo, this.cSocketID, true);
+        this.parentThread.signalAllClients(enemyInfo, this.cSocketID, true);
 
         inStream.close(); // close input stream
         outStream.close(); // close output stream
@@ -143,8 +143,8 @@ public class SSocketThread implements Runnable{
             LoginSuccess loginSuccess = new LoginSuccess(cmd, NetworkSetting.LOGIN_FLAG.SUCCESS, account.getUsername(), 0, GameController.getInstance());
             outStream.write(loginSuccess.pack());
 
-            OpponentInfo opponentInfo = new OpponentInfo(NetworkSetting.CMD.CMD_INFO, NetworkSetting.INFO_TYPE_FLAG.TYPE_NOTICE_NEW_OPPONENT, account.getUsername(), GameController.getInstance());
-            this.parentThread.signalAllClients(opponentInfo, this.cSocketID, true);
+            EnemyInfo enemyInfo = new EnemyInfo(NetworkSetting.CMD.CMD_INFO, NetworkSetting.INFO_TYPE_FLAG.TYPE_NOTICE_NEW_OPPONENT, account.getUsername(), GameController.getInstance());
+            this.parentThread.signalAllClients(enemyInfo, this.cSocketID, true);
 
             for (String name: usrNames) {
                 System.out.println(name);

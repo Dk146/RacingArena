@@ -1,12 +1,12 @@
-package clientGUI;
+package GUI;
 
-import clientdatamodel.send.CSenLogin;
-import clientobject.GameSetting;
-import clientobject.GameController;
+import datamodel.send.CSenLogin;
+import obj.GameSetting;
+import obj.GameController;
 
-import clientnetwork.Network;
-import clientnetwork.NetworkSetting;
-import clientobject.Player;
+import network.Network;
+import network.NetworkSetting;
+import obj.Player;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import static clientGUI.GUISetting.ColorButtonConfig.*;
+import static GUI.GUISetting.ColorButtonConfig.*;
 
 public class GUI extends JFrame {
     private static String userNickname;

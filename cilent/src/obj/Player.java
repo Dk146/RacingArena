@@ -1,4 +1,4 @@
-package clientobject;
+package obj;
 
 public class Player {
     private String nickname;

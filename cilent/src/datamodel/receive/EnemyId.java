@@ -1,6 +1,6 @@
-package clientdatamodel.receive;
+package datamodel.receive;
 
-import clientdatamodel.DataModel;
+import datamodel.DataModel;
 
 import java.nio.ByteBuffer;
 

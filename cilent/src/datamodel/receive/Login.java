@@ -1,10 +1,10 @@
-package clientdatamodel.receive;
+package datamodel.receive;
 
-import clientdatamodel.DataModel;
-import clientnetwork.NetworkSetting;
+import datamodel.DataModel;
+import network.NetworkSetting;
 
-import clientobject.GameSetting;
-import clientobject.Player;
+import obj.GameSetting;
+import obj.Player;
 
 import java.nio.ByteBuffer;
 import java.util.HashMap;

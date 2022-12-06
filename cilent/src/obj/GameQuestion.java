@@ -1,4 +1,4 @@
-package clientobject;
+package obj;
 
 public class GameQuestion {
     private int questionId, firstNum, operator, secondNum;

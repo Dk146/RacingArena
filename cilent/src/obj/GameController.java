@@ -1,9 +1,9 @@
-package clientobject;
+package obj;
 
-import clientGUI.GUI;
-import clientdatamodel.send.CSenAnswer;
-import clientnetwork.Network;
-import clientnetwork.NetworkSetting;
+import GUI.GUI;
+import datamodel.send.CSenAnswer;
+import network.Network;
+import network.NetworkSetting;
 
 import java.util.HashMap;
 import java.util.Map;

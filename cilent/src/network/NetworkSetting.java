@@ -1,4 +1,4 @@
-package clientnetwork;
+package network;
 
 public class NetworkSetting {
     public static String SERVER_HOST = "localhost";

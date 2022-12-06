@@ -27,8 +27,6 @@ public class RacersInfo extends DataModel {
                 + this.sGameMaster.getSizeInBytes(false, null);
         ByteBuffer byteBuffer = ByteBuffer.allocate(capacity);
 
-        // Pour in data
-        // Always put cmd first
         byteBuffer.putInt(this.cmd);
         // Then put data sequentially
         byteBuffer.putInt(this.sAnswer);
@@ -36,16 +34,12 @@ public class RacersInfo extends DataModel {
 
         for (Map.Entry<String, Racer> entry : this.sGameMaster.getsRacers().entrySet()) {
             Racer racerObject = entry.getValue();
-            // string username
             byteBuffer.putInt(racerObject.getUsername().length());
             byteBuffer.put(racerObject.getUsername().getBytes());
-            // int position;
             byteBuffer.putInt(racerObject.getPosition());
-            // int rStatus;
             byteBuffer.putInt(racerObject.getStatus());
         }
 
-        // Return a byte[] array
         return byteBuffer.array();
     }
 

@@ -1,7 +1,7 @@
-import clientGUI.GUI;
-import clientGUI.GUISetting;
-import clientnetwork.Network;
-import clientobject.GameController;
+import GUI.GUI;
+import GUI.GUISetting;
+import network.Network;
+import obj.GameController;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
